@@ -573,8 +573,8 @@ static void packethandler(unsigned char *dummy,
 
                 carp_set_state(&sc, BACKUP);
                 carp_setrun(&sc, 0);
-                logfile(LOG_WARNING, _("Preferred master advertised: "
-                                       "going back to BACKUP state"));
+                logfile(LOG_WARNING, _("Preferred master advertised from %s: "
+                                       "going back to BACKUP state"), inet_ntoa(iphead.ip_src));
             }
 
             /*
@@ -588,8 +588,8 @@ static void packethandler(unsigned char *dummy,
                     iphead.ip_src.s_addr > srcip.s_addr)) {
                 gratuitous_arp(dev_desc_fd);
                 sc.sc_delayed_arp = 2; /* and yet another in 2 ticks */
-                logfile(LOG_WARNING, _("Non-preferred master advertising: "
-                                       "reasserting control of VIP with another gratuitous arp"));
+                logfile(LOG_WARNING, _("Non-preferred master advertising from %s: "
+                                       "reasserting control of VIP with another gratuitous arp"), inet_ntoa(iphead.ip_src));
             }
             break;
         case BACKUP:
